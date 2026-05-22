@@ -1,0 +1,21 @@
+sequenceDiagram
+    autonumber
+    actor User as Người dùng (Browser)
+    participant Controller as Controller (home.java)
+    participant View as View (/views/index.jsp)
+
+    Note over User, Controller: Bước 1: Yêu cầu
+    User->>Controller: Truy cập URL "/home" (HTTP GET)
+
+    activate Controller
+    Note right of Controller: Tiếp nhận request tại doGet()
+
+    Note over Controller, View: Bước 2: Điều phối (Forward)
+    Controller->>View: request.getRequestDispatcher("/views/index.jsp").forward(req, resp)
+
+    activate View
+    Note right of View: Server-side rendering JSP thành HTML
+
+    Note over View, User: Bước 3: Phản hồi
+    View-->>User: Trả về nội dung HTML (Hiển thị "FPT POLYTECHNIC")
+    deactivate View

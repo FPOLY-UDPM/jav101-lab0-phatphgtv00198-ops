@@ -1,0 +1,36 @@
+sequenceDiagram
+    autonumber
+    title Luồng xử lý chuẩn MVC (Model-View-Controller)
+
+    actor User as Người dùng (Trình duyệt)
+    participant View as View (JSP)
+    participant Controller as Controller (Servlet)
+    participant Model as Model (Service/DAO)
+
+    Note over User, View: 1. Giai đoạn yêu cầu
+    User->>View: Truy cập trang hoặc gửi Form
+    View->>Controller: Gửi HTTP Request (GET/POST)
+
+    activate Controller
+    Note right of Controller: Servlet tiếp nhận yêu cầu
+    Note over Controller, Model: 2. Giai đoạn xử lý logic
+    Controller->>Controller: Đọc và validate dữ liệu từ request
+    Controller->>Model: Gọi hàm xử lý nghiệp vụ (Business Logic)
+    activate Model
+    Model->>Model: Thực hiện tính toán / Truy vấn Database
+    Model-->>Controller: Trả về kết quả (Object/List/Boolean)
+    deactivate Model
+
+    Note over Controller, View: 3. Giai đoạn phản hồi
+    Controller->>Controller: Lưu dữ liệu vào request (setAttribute)
+
+    alt Thành công
+        Controller->>View: Forward sang trang JSP thành công
+    else Thất bại
+        Controller->>View: Forward về trang JSP lỗi / Trang hiện tại
+    end
+    deactivate Controller
+
+    activate View
+    View-->>User: Trình duyệt render và hiển thị HTML
+    deactivate View
