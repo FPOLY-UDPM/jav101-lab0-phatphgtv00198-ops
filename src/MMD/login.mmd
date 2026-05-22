@@ -1,0 +1,23 @@
+sequenceDiagram
+    autonumber
+    actor User as Người dùng
+    participant View as View (DangNhap.jsp)
+    participant Controller as Controller (DangNhap Servlet)
+    participant Model as Model (Logic/Database)
+
+    User->>View: Truy cập trang đăng nhập
+    View-->>User: Hiển thị Form Đăng nhập
+
+    User->>View: Nhập Username/Password & nhấn Login
+    View->>Controller: Gửi HTTP POST request (/xuly_dangnhap)
+
+    Note over Controller: Trích xuất username, password
+
+    Controller->>Model: Kiểm tra thông tin đăng nhập
+    alt Thông tin hợp lệ
+        Model-->>Controller: Trả về kết quả: Thành công
+        Controller-->>User: Hiển thị: "Chúc mừng, đăng nhập thành công!"
+    else Thông tin không hợp lệ
+        Model-->>Controller: Trả về kết quả: Thất bại
+        Controller-->>User: Hiển thị: "Đăng nhập không thành công!"
+    end
